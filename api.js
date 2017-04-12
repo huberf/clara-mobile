@@ -16,12 +16,19 @@ exports.sendMessage = async (text, callback) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      input: 'Hello',
+      input: text,
     })
+    //body: 'input=Hello'
   })
-  .then((response) => {response.text()})
+  .then((response) => {callback(response._bodyText)})
+  /*
   .then((info) => {
+    Alert.alert('I: ' + info);
     callback(info);
+  })
+  */
+  .catch((error) => {
+    Alert.alert('Error: ' + error);
   })
   .done()
 }

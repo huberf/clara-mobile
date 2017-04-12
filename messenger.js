@@ -28,7 +28,7 @@ class Messenger extends Component {
   constructor(props) {
     super(props);
     this.props.title = this.props.messageData.name;
-    this.state = {messages: []};
+    this.state = {messages: [], id: 1};
     this.onSend = this.onSend.bind(this);
   }
   componentWillMount() {
@@ -52,9 +52,10 @@ class Messenger extends Component {
     });
   }
   onSend(messages = []) {
-    var addMessage = (text = 'None') => {
+    var addMessage = (text) => {
+      this.setState({id: this.state.id+1});
 			var toAppend = {
-        _id: 1,
+        _id: this.state.id,
         text: text,
         createdAt: Date.now(),
         user: {
@@ -62,7 +63,7 @@ class Messenger extends Component {
           name: 'Clara',
           avatar: 'https://facebook.github.io/react/img/logo_og.png',
         },
-        image: 'https://facebook.github.io/react/img/logo_og.png',
+        // image: 'https://facebook.github.io/react/img/logo_og.png',
         // additional custom parameters
       }
       this.setState((previousState) => {
