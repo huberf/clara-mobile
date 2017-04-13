@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
+var t = require('tcomb-form-native');
 import { Actions } from 'react-native-router-flux';
 
 var {
@@ -10,22 +11,45 @@ var {
   View,
   TouchableHighlight,
   Alert,
-  NetInfo,
 } = ReactNative;
 
 var {
   Component
 } = React;
 
-const options = {};
+var STORAGE_KEY = 'id_token';
+
+var Form = t.form.Form;
+
+var Person = t.struct({
+  server: t.String,
+});
+
+const options = {
+	fields: {
+		server: {
+      placeholder: 'http://localhost:2525/',
+      autoCapitalize: 'none',
+      autoCorrect: false,
+		}
+	}
+};
 
 var api = require('./api');
 
 export default class loginPage extends Component {
+	constructor(props) {
+    super();
+    this.state = {
+      visible: false
+    };
+  }
 
   render() {
-    AsyncStorage.getItem('API_HEAD', (err, data) => {
-      if (data && data != '') {
+    var saveHead = () => {
+      var data = this.refs.form.getValue();
+      if (data) {
+        AsyncStorage.setItem('API_HEAD', data.server);
         Actions.messengerPage({messageData: {name: 'Clara', messages: [
           {
             text: 'Hi! I\'m online.',
@@ -33,14 +57,24 @@ export default class loginPage extends Component {
             sender: 'Clara',
           }
         ]}});
-      } else {
-        Actions.setupPage();
       }
-    });
+    }
     return (
       <View style={styles.container}>
         <View style={styles.row}>
-          <Text style={styles.title}></Text>
+          <Form
+            ref="form"
+            type={Person}
+            options={options}
+          />
+        </View>
+        <View style={styles.row}>
+          <TouchableHighlight style={styles.button} onPress={saveHead} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Save</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.buttonText}>If you experience trouble email nhuberfeely@gmail.com</Text>
         </View>
       </View>
     );

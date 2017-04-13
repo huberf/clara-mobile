@@ -24,6 +24,7 @@ import {
 } from 'react-native';
 
 import messenger from './messenger';
+import setupPage from './setup';
 import startupPage from './startup';
 
 export default class claraApp extends Component {
@@ -32,7 +33,18 @@ export default class claraApp extends Component {
         <Router>
           <Scene key="root" unmountScences={false}>
             <Scene key="startupPage" type={ActionConst.REPLACE} component={startupPage} title="Loading..." initial={true} />
-            <Scene key="messengerPage" type={ActionConst.REPLACE} component={messenger} title="Messenger" />
+            <Scene key="setupPage" type={ActionConst.REPLACE} component={setupPage} title="Config" />
+            <Scene
+              key="messengerPage"
+              type={ActionConst.REPLACE}
+              title="Messenger"
+              //rightButtonImage="http://www.clker.com/cliparts/T/Y/8/C/N/L/gear-icon-hi.png"
+              //getRightTitle={() => {return(<Text>Hello</Text>)}}
+              rightTitle="X"
+              onRight={() => {Actions.setupPage();}}
+            >
+              <Scene title="Messenger" key="messengerMain" initial={true} component={messenger} />
+            </Scene>
           </Scene>
         </Router>
     );
