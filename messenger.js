@@ -52,7 +52,8 @@ class Messenger extends Component {
     });
   }
   onSend(messages = []) {
-    var addMessage = (text) => {
+    var addMessage = (response) => {
+      var text = response.message;
       this.setState({id: this.state.id+1});
 			var toAppend = {
         _id: this.state.id,
@@ -65,6 +66,9 @@ class Messenger extends Component {
         },
         // image: 'https://facebook.github.io/react/img/logo_og.png',
         // additional custom parameters
+      }
+      if (response.image != 'None') {
+        toAppend['image'] = response.image;
       }
       this.setState((previousState) => {
         return {

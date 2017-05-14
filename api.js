@@ -22,7 +22,7 @@ exports.sendMessage = async (text, callback) => {
       })
       //body: 'input=Hello'
     })
-    .then((response) => {callback(response._bodyText)})
+    .then((response) => {callback(JSON.parse(response._bodyText))})
     /*
     .then((info) => {
       Alert.alert('I: ' + info);
