@@ -11,7 +11,7 @@ var API_HEAD = 'http://localhost:2525/';
 
 exports.sendMessage = async (text, callback) => {
   AsyncStorage.getItem('API_HEAD', (err, data) => {
-    fetch(data + 'converse', {
+    fetch(data + 'api/v1/io/blocking', {
       method: "POST",
       headers: {
         'Accept': 'application/json',
